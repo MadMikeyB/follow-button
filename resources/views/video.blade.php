@@ -1,97 +1,36 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
-        <link rel="stylesheet" href="{{asset('/css/app.css')}}">
+@extends('layouts.app')
 
-        <title>Follow Button</title>
-        
-    </head>
-    <body>
-<nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
-                <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
-                        <span class="sr-only">Toggle Navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
-                        {{ config('app.name', 'Laravel') }}
-                    </a>
-                </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="nav navbar-nav">
-                        &nbsp;
-                    </ul>
-
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <!-- Authentication Links -->
-                        @guest
-                            <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
-                        @else
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{ Auth::user()->name }} <span class="caret"></span>
-                                </a>
-
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="{{ route('logout') }}"
-                                            onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a>
-
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                            {{ csrf_field() }}
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endguest
-                    </ul>
-                </div>
-            </div>
-        </nav>
-
-        <div id="app">
-
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="panel panel-default">
-                            <div class="panel-body">
-                                <follow-button id="{{$video->id}}" type="video"></follow-button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">{{$video->title}}</h3>
-                            </div>
-                            <div class="panel-body">
-                                {{$video->body}}
-                            </div>
-                        </div>
-                    </div>
+@section('content')
+<div class="container">
+    <div class="page-header">
+      <h1>Videos <small>&mdash; {{$video->title}}</small></h1>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <follow-button id="{{$video->id}}" type="video"></follow-button>
                 </div>
             </div>
         </div>
-
-        <script src="{{asset('/js/app.js')}}"></script>
-    </body>
-</html>
+        <div class="col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{$video->title}}</h3>
+                </div>
+                <div class="panel-body">
+                    {{$video->body}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ul class="pager">
+    @unless($video->id == 1)
+    <li><a href="/videos/{{$video->id-1}}">Previous</a></li>
+    @endunless
+    @unless($video->id == 50)
+    <li><a href="/videos/{{$video->id+1}}">Next</a></li>
+    @endunless
+</ul>
+@endsection
