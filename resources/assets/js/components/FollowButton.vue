@@ -24,17 +24,13 @@ export default {
     methods: {
         toggleFollow() {
             axios.get('/api/toggleFollow?id=' + this.id + '&type=' + this.type)
-                .then(({
-                    data
-                }) => {
+                .then(({data}) => {
                     this.isFollowing = !this.isFollowing
                 });
         },
         userIsFollowing() {
             axios.get('/api/following?id=' + this.id + '&type=' + this.type)
-                .then(({
-                    data
-                }) => {
+                .then(({data}) => {
                     if (data == 1) {
                         this.isFollowing = true;
                     } else {
