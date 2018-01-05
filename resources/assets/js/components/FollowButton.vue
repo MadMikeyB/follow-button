@@ -14,30 +14,34 @@
 </template>
 
 <script>
-    export default {
-        props: ['id', 'type'],
-        data() {
-            return {
-                isFollowing: this.userIsFollowing()
-            }
-        },
-        methods: {
-            toggleFollow() {
-                axios.get('/api/toggleFollow?id='+this.id+'&type='+this.type)
-                  .then(({data}) => {
+export default {
+    props: ['id', 'type'],
+    data() {
+        return {
+            isFollowing: this.userIsFollowing()
+        }
+    },
+    methods: {
+        toggleFollow() {
+            axios.get('/api/toggleFollow?id=' + this.id + '&type=' + this.type)
+                .then(({
+                    data
+                }) => {
                     this.isFollowing = !this.isFollowing
-                  });
-            },
-            userIsFollowing() {
-                axios.get('/api/following?id='+this.id+'&type='+this.type)
-                    .then(({data}) => {
-                        if (data == 1) {
-                            this.isFollowing = true;
-                        } else {
-                            this.isFollowing = false;
-                        }
-                    });
-            }
+                });
+        },
+        userIsFollowing() {
+            axios.get('/api/following?id=' + this.id + '&type=' + this.type)
+                .then(({
+                    data
+                }) => {
+                    if (data == 1) {
+                        this.isFollowing = true;
+                    } else {
+                        this.isFollowing = false;
+                    }
+                });
         }
     }
+}
 </script>
